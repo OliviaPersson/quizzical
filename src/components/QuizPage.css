@@ -1,0 +1,35 @@
+.question-container {
+    margin-top: 18px;
+}
+
+.question-container > hr {
+    margin-top: 15px;
+    border-top: 1px solid #DBDEF0;
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+}
+
+.answer-options-container {
+    color: #293264;
+    display: flex;
+    gap: 13px;
+}
+
+.question {
+    font-family: 'Karla';
+    font-size: 16px;
+}
+
+.answer-options {
+    margin: 0px;
+    border: 1px solid #4D5B9E;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-size: 10.24px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+}

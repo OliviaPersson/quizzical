@@ -9,6 +9,7 @@ body {
   background-image: url("./images/blob-blue.png"), url("./images/blob-yellow.png");
   background-repeat: no-repeat;
   background-position: left bottom, right top;
+  background-color: #F5F7FB;
 }
 
 code {

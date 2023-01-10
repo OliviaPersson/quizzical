@@ -10,7 +10,7 @@ function App() {
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
       .then((response) => response.json())
-      .then((data) => setQuizData(data));
+      .then((data) => setQuizData(data.results));
   }, []);
 
   console.log(quizData);
@@ -24,7 +24,19 @@ function App() {
       {!startGame ? (
         <StartPage handleStartQuizz={handleStartQuizz} />
       ) : (
-        <QuizPage />
+        <div className="quiz-container">
+          {quizData.map((data) => {
+            console.log(data.question);
+            return (
+              <QuizPage
+                key={data.question}
+                question={data.question}
+                correctAnswer={data.correct_answer}
+                incorrectAnswers={data.incorrect_answers}
+              />
+            );
+          })}
+        </div>
       )}
     </div>
   );
