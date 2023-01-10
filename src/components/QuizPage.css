@@ -33,3 +33,17 @@
     padding-right: 8px;
     cursor: pointer;
 }
+
+.selected {
+    background-color: #D6DBF5;
+    margin: 0px;
+    border: 1px solid #4D5B9E;
+    border-radius: 8px;
+    font-family: 'Inter';
+    font-size: 10.24px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
+}

@@ -65,6 +65,29 @@ function App() {
     setStartGame(true);
   }
 
+  function handleToggleAnswer(id) {
+    quizData.map((question) => {
+      question.answers.map((answer) => {
+        if (answer.id === id) {
+          console.log(answer.isHeld);
+        }
+      });
+    });
+
+    setQuizData((prevState) =>
+      prevState.map((question) => {
+        return {
+          ...question,
+          answers: question.answers.map((answer) => {
+            return answer.id === id
+              ? { ...answer, isHeld: !answer.isHeld }
+              : answer;
+          }),
+        };
+      })
+    );
+  }
+
   return (
     <div className="app">
       {!startGame ? (
@@ -75,9 +98,9 @@ function App() {
             return (
               <QuizPage
                 key={question.id}
-                id={question.id}
                 question={question.question}
                 answers={question.answers}
+                handleToggleAnswer={handleToggleAnswer}
               />
             );
           })}
