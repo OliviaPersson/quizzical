@@ -1,16 +1,62 @@
 import React from "react";
 import StartPage from "./components/StartPage";
 import QuizPage from "./components/QuizPage";
+import uuid from "react-uuid";
 import "./App.css";
 
 function App() {
-  const [quizData, setQuizData] = React.useState([]);
   const [startGame, setStartGame] = React.useState(false);
+  const [quizData, setQuizData] = React.useState([
+    {
+      id: "",
+      question: "",
+      category: "",
+      type: "",
+      difficulty: "",
+      answers: [
+        {
+          id: "",
+          value: "",
+          isHeld: false,
+          isCorrect: false,
+        },
+      ],
+    },
+  ]);
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
       .then((response) => response.json())
-      .then((data) => setQuizData(data.results));
+      .then((data) => {
+        setQuizData(() => {
+          return data.results.map((question) => {
+            const incorrect = question.incorrect_answers.map((answer) => {
+              return {
+                value: answer,
+                id: uuid(),
+                isHeld: false,
+                isCorrect: false,
+              };
+            });
+
+            const correct = {
+              value: question.correct_answer,
+              id: uuid(),
+              isHeld: false,
+              isCorrect: true,
+            };
+
+            return {
+              id: uuid(),
+              category: question.category,
+              question: question.question,
+              type: question.type,
+              difficulty: question.difficulty,
+              answers: [correct, ...incorrect],
+            };
+          });
+        });
+      });
   }, []);
 
   console.log(quizData);
@@ -25,14 +71,13 @@ function App() {
         <StartPage handleStartQuizz={handleStartQuizz} />
       ) : (
         <div className="quiz-container">
-          {quizData.map((data) => {
-            console.log(data.question);
+          {quizData?.map((question) => {
             return (
               <QuizPage
-                key={data.question}
-                question={data.question}
-                correctAnswer={data.correct_answer}
-                incorrectAnswers={data.incorrect_answers}
+                key={question.id}
+                id={question.id}
+                question={question.question}
+                answers={question.answers}
               />
             );
           })}
