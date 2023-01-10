@@ -1,8 +1,6 @@
 import "./QuizPage.css";
 
 function QuizPage({ question, answers, handleToggleAnswer }) {
-  const styles = { backgroundColor: "#D6DBF5" };
-
   return (
     <div className="question-container">
       <h3 className="question">{question}</h3>

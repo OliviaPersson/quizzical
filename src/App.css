@@ -4,3 +4,22 @@
   padding-left: 75px;
   padding-right: 75px;
 }
+
+.check-answer-button {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 120px;
+  height: 35px;
+  background: #4D5B9E;
+  border: 1px solid #4D5B9E;
+  border-radius: 10px;
+  font-family: 'Inter';
+  font-size: 10.24px;
+  color: #F5F7FB;
+  cursor: pointer;
+}

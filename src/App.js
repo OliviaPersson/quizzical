@@ -66,14 +66,6 @@ function App() {
   }
 
   function handleToggleAnswer(id) {
-    quizData.map((question) => {
-      question.answers.map((answer) => {
-        if (answer.id === id) {
-          console.log(answer.isHeld);
-        }
-      });
-    });
-
     setQuizData((prevState) =>
       prevState.map((question) => {
         return {
@@ -86,6 +78,18 @@ function App() {
         };
       })
     );
+  }
+
+  function handleCheckAnswers() {
+    quizData.map((question) => {
+      question.answers.map((answer) => {
+        if (answer.isHeld && !answer.isCorrect) {
+          console.log("Wrong answer!");
+        } else if (answer.isHeld && answer.isCorrect) {
+          console.log("Correct answer!");
+        }
+      });
+    });
   }
 
   return (
@@ -104,6 +108,9 @@ function App() {
               />
             );
           })}
+          <button className="check-answer-button" onClick={handleCheckAnswers}>
+            Check answers
+          </button>
         </div>
       )}
     </div>
