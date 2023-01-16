@@ -6,6 +6,10 @@ import "./App.css";
 
 function App() {
   const [startGame, setStartGame] = React.useState(false);
+  const [correctAnswers, setCorrectAnswers] = React.useState(0);
+  const [checkAnswersIsClicked, setCheckAnswersIsClicked] =
+    React.useState(false);
+  const [color, setColor] = React.useState("");
   const [quizData, setQuizData] = React.useState([
     {
       id: "",
@@ -81,11 +85,14 @@ function App() {
   }
 
   function handleCheckAnswers() {
+    setCheckAnswersIsClicked(true);
+
     quizData.map((question) => {
       question.answers.map((answer) => {
         if (answer.isHeld && !answer.isCorrect) {
           console.log("Wrong answer!");
         } else if (answer.isHeld && answer.isCorrect) {
+          setCorrectAnswers((prevState) => prevState + 1);
           console.log("Correct answer!");
         }
       });
@@ -102,15 +109,28 @@ function App() {
             return (
               <QuizPage
                 key={question.id}
+                color={color}
                 question={question.question}
                 answers={question.answers}
                 handleToggleAnswer={handleToggleAnswer}
               />
             );
           })}
-          <button className="check-answer-button" onClick={handleCheckAnswers}>
-            Check answers
-          </button>
+          <div className="result-container">
+            {checkAnswersIsClicked ? (
+              <h3 className="answer-result">
+                You scored {correctAnswers}/10 correct answers
+              </h3>
+            ) : (
+              ""
+            )}
+            <button
+              className="check-answer-button"
+              onClick={handleCheckAnswers}
+            >
+              Check answers
+            </button>
+          </div>
         </div>
       )}
     </div>
