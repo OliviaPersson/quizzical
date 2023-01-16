@@ -5,28 +5,34 @@ import uuid from "react-uuid";
 import "./App.css";
 
 function App() {
+  const initialState = {
+    id: "",
+    question: "",
+    category: "",
+    type: "",
+    difficulty: "",
+    answers: [
+      {
+        id: "",
+        value: "",
+        isHeld: false,
+        isCorrect: false,
+      },
+    ],
+  };
+
   const [startGame, setStartGame] = React.useState(false);
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [checkAnswersIsClicked, setCheckAnswersIsClicked] =
     React.useState(false);
-  const [color, setColor] = React.useState("");
-  const [quizData, setQuizData] = React.useState([
-    {
-      id: "",
-      question: "",
-      category: "",
-      type: "",
-      difficulty: "",
-      answers: [
-        {
-          id: "",
-          value: "",
-          isHeld: false,
-          isCorrect: false,
-        },
-      ],
-    },
-  ]);
+  // const [answerColors, setAnswerColors] = React.useState([
+  //   {
+  //     backgroundColor: "#4D5B9E",
+  //     borderColor: "#4D5B9E",
+  //     textColor: "#293264",
+  //   },
+  // ]);
+  const [quizData, setQuizData] = React.useState([initialState]);
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -61,9 +67,16 @@ function App() {
           });
         });
       });
-  }, []);
+  }, [startGame]);
 
   console.log(quizData);
+
+  function handleRestartQuiz() {
+    setStartGame(false);
+    setCorrectAnswers(0);
+    setCheckAnswersIsClicked(false);
+    setQuizData([initialState]);
+  }
 
   function handleStartQuizz() {
     setStartGame(true);
@@ -109,10 +122,12 @@ function App() {
             return (
               <QuizPage
                 key={question.id}
-                color={color}
                 question={question.question}
                 answers={question.answers}
+                checkAnswersIsClicked={checkAnswersIsClicked}
+                // answerColors={answerColors}
                 handleToggleAnswer={handleToggleAnswer}
+                handleRestartQuiz={handleRestartQuiz}
               />
             );
           })}
@@ -126,9 +141,11 @@ function App() {
             )}
             <button
               className="check-answer-button"
-              onClick={handleCheckAnswers}
+              onClick={
+                !checkAnswersIsClicked ? handleCheckAnswers : handleRestartQuiz
+              }
             >
-              Check answers
+              {checkAnswersIsClicked ? "Play again" : "Check answers"}
             </button>
           </div>
         </div>

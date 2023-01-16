@@ -10,40 +10,38 @@
     border-left: none;
 }
 
+.question {
+    font-family: 'Karla';
+    font-size: 16px;
+}
+
 .answer-options-container {
     color: #293264;
     display: flex;
     gap: 13px;
 }
 
-.question {
-    font-family: 'Karla';
-    font-size: 16px;
-}
-
-.answer-options {
-    margin: 0px;
+.answer-option .notHeld {
     border: 1px solid #4D5B9E;
-    border-radius: 8px;
-    font-family: 'Inter';
-    font-size: 10.24px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-    cursor: pointer;
 }
 
-.selected {
+.answer-option .isHeld {
     background-color: #D6DBF5;
-    margin: 0px;
     border: 1px solid #D6DBF5;
-    border-radius: 8px;
-    font-family: 'Inter';
-    font-size: 10.24px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
-    cursor: pointer;
+}
+
+.correct-answer {
+    background-color: #94D7A2;
+    border: 1px solid #94D7A2;
+}
+
+.wrong-answer {
+    background-color: #F8BCBC;
+    border: 1px solid #F8BCBC;
+    opacity: 0.5;
+}
+
+.not-selected {
+    border: 1px solid #4D5B9E;
+    opacity: 0.5;
 }
