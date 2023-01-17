@@ -2,6 +2,7 @@ import "./QuizPage.css";
 
 function QuizPage({
   question,
+  questionId,
   answers,
   checkAnswersIsClicked,
   handleToggleAnswer,
@@ -17,7 +18,7 @@ function QuizPage({
     paddingRight: "8px",
     cursor: "pointer",
   };
-  function setClassName(answer) {
+  function handleSetClassName(answer) {
     if (!checkAnswersIsClicked) {
       if (answer.isHeld) {
         return "isHeld";
@@ -40,12 +41,12 @@ function QuizPage({
       <h3 className="question">{question}</h3>
       <div className="answer-options-container">
         {answers.map((answer) => (
-          <div className="answer-option">
+          <div key={answer.id} className="answer-option">
             <p
               key={answer.id}
               style={style}
-              className={setClassName(answer)}
-              onClick={() => handleToggleAnswer(answer.id)}
+              className={handleSetClassName(answer)}
+              onClick={() => handleToggleAnswer(questionId, answer.id)}
             >
               {answer.value}
             </p>

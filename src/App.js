@@ -25,13 +25,6 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [checkAnswersIsClicked, setCheckAnswersIsClicked] =
     React.useState(false);
-  // const [answerColors, setAnswerColors] = React.useState([
-  //   {
-  //     backgroundColor: "#4D5B9E",
-  //     borderColor: "#4D5B9E",
-  //     textColor: "#293264",
-  //   },
-  // ]);
   const [quizData, setQuizData] = React.useState([initialState]);
 
   React.useEffect(() => {
@@ -69,8 +62,6 @@ function App() {
       });
   }, [startGame]);
 
-  console.log(quizData);
-
   function handleRestartQuiz() {
     setStartGame(false);
     setCorrectAnswers(0);
@@ -82,19 +73,25 @@ function App() {
     setStartGame(true);
   }
 
-  function handleToggleAnswer(id) {
-    setQuizData((prevState) =>
-      prevState.map((question) => {
-        return {
-          ...question,
-          answers: question.answers.map((answer) => {
-            return answer.id === id
-              ? { ...answer, isHeld: !answer.isHeld }
-              : answer;
-          }),
-        };
-      })
-    );
+  function handleToggleAnswer(questionId, answerId) {
+    if (!checkAnswersIsClicked) {
+      setQuizData((prevState) =>
+        prevState.map((question) => {
+          if(question.id !== questionId) {
+            return question;
+          } else {
+            return {
+              ...question,
+              answers: question.answers.map((answer) => {
+                return answer.id === answerId
+                  ? { ...answer, isHeld: !answer.isHeld }
+                  : { ...answer, isHeld: false };
+              }),
+            };
+          }
+        })
+      );
+    }
   }
 
   function handleCheckAnswers() {
@@ -103,10 +100,8 @@ function App() {
     quizData.map((question) => {
       question.answers.map((answer) => {
         if (answer.isHeld && !answer.isCorrect) {
-          console.log("Wrong answer!");
         } else if (answer.isHeld && answer.isCorrect) {
           setCorrectAnswers((prevState) => prevState + 1);
-          console.log("Correct answer!");
         }
       });
     });
@@ -123,9 +118,9 @@ function App() {
               <QuizPage
                 key={question.id}
                 question={question.question}
+                questionId={question.id}
                 answers={question.answers}
                 checkAnswersIsClicked={checkAnswersIsClicked}
-                // answerColors={answerColors}
                 handleToggleAnswer={handleToggleAnswer}
                 handleRestartQuiz={handleRestartQuiz}
               />
