@@ -2,7 +2,7 @@
     margin-top: 18px;
 }
 
-.question-container > hr {
+.question-container>hr {
     margin-top: 15px;
     border-top: 1px solid #DBDEF0;
     border-bottom: none;
@@ -21,11 +21,15 @@
     gap: 13px;
 }
 
-.answer-option .notHeld {
+.answer-option {
+    margin: 0px;
+}
+
+.notHeld {
     border: 1px solid #4D5B9E;
 }
 
-.answer-option .isHeld {
+.isHeld {
     background-color: #D6DBF5;
     border: 1px solid #D6DBF5;
 }

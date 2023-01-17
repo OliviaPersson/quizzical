@@ -18,13 +18,10 @@ function QuizPage({
     paddingRight: "8px",
     cursor: "pointer",
   };
+
   function handleSetClassName(answer) {
     if (!checkAnswersIsClicked) {
-      if (answer.isHeld) {
-        return "isHeld";
-      } else {
-        return "notHeld";
-      }
+      return answer.isHeld ? "isHeld" : "notHeld";
     } else {
       if (answer.isHeld && answer.isCorrect) {
         return "correct-answer";
@@ -34,22 +31,18 @@ function QuizPage({
         return "not-selected";
       }
     }
-  }
+  };
 
   return (
     <div className="question-container">
-      <h3 className="question">{question}</h3>
+      <div dangerouslySetInnerHTML={{ __html: `<h3 class="question">${question}</h3>` }}></div>
       <div className="answer-options-container">
         {answers.map((answer) => (
-          <div key={answer.id} className="answer-option">
-            <p
-              key={answer.id}
-              style={style}
-              className={handleSetClassName(answer)}
-              onClick={() => handleToggleAnswer(questionId, answer.id)}
-            >
-              {answer.value}
-            </p>
+          <div key={answer.id} 
+               style={style} 
+               className={handleSetClassName(answer)} 
+               onClick={() => handleToggleAnswer(questionId, answer.id)}>
+              <div dangerouslySetInnerHTML={{ __html: `<p class="answer-option">${answer.value}</p>` }}></div>
           </div>
         ))}
       </div>
