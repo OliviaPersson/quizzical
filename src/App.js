@@ -11,6 +11,7 @@ function App() {
     category: "",
     type: "",
     difficulty: "",
+    isAnswered: false,
     answers: [
       {
         id: "",
@@ -23,9 +24,11 @@ function App() {
 
   const [startGame, setStartGame] = React.useState(false);
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
-  const [checkAnswersIsClicked, setCheckAnswersIsClicked] =
-    React.useState(false);
+  const [correctQuiz, setCorrectQuiz] = React.useState(false);
   const [quizData, setQuizData] = React.useState([initialState]);
+  const [errorMessage, setErrorMessage] = React.useState(
+    "Please enter an answer"
+  );
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -55,6 +58,7 @@ function App() {
               question: question.question,
               type: question.type,
               difficulty: question.difficulty,
+              isAnswered: false,
               answers: [correct, ...incorrect],
             };
           });
@@ -65,7 +69,7 @@ function App() {
   function handleRestartQuiz() {
     setStartGame(false);
     setCorrectAnswers(0);
-    setCheckAnswersIsClicked(false);
+    setCorrectQuiz(false);
     setQuizData([initialState]);
   }
 
@@ -74,14 +78,15 @@ function App() {
   }
 
   function handleToggleAnswer(questionId, answerId) {
-    if (!checkAnswersIsClicked) {
+    if (!correctQuiz) {
       setQuizData((prevState) =>
         prevState.map((question) => {
-          if(question.id !== questionId) {
+          if (question.id !== questionId) {
             return question;
           } else {
             return {
               ...question,
+              isAnswered: !question.isAnswered,
               answers: question.answers.map((answer) => {
                 return answer.id === answerId
                   ? { ...answer, isHeld: !answer.isHeld }
@@ -95,7 +100,7 @@ function App() {
   }
 
   function handleCheckAnswers() {
-    setCheckAnswersIsClicked(true);
+    setCorrectQuiz(true);
 
     quizData.map((question) => {
       question.answers.map((answer) => {
@@ -119,15 +124,17 @@ function App() {
                 key={question.id}
                 question={question.question}
                 questionId={question.id}
+                isAnswered={question.isAnswered}
                 answers={question.answers}
-                checkAnswersIsClicked={checkAnswersIsClicked}
+                correctQuiz={correctQuiz}
+                errorMessage={errorMessage}
                 handleToggleAnswer={handleToggleAnswer}
                 handleRestartQuiz={handleRestartQuiz}
               />
             );
           })}
           <div className="result-container">
-            {checkAnswersIsClicked ? (
+            {correctQuiz ? (
               <h3 className="answer-result">
                 You scored {correctAnswers}/10 correct answers
               </h3>
@@ -136,11 +143,9 @@ function App() {
             )}
             <button
               className="check-answer-button"
-              onClick={
-                !checkAnswersIsClicked ? handleCheckAnswers : handleRestartQuiz
-              }
+              onClick={!correctQuiz ? handleCheckAnswers : handleRestartQuiz}
             >
-              {checkAnswersIsClicked ? "Play again" : "Check answers"}
+              {correctQuiz ? "Play again" : "Check answers"}
             </button>
           </div>
         </div>

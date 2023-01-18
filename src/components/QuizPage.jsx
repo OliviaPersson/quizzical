@@ -4,7 +4,9 @@ function QuizPage({
   question,
   questionId,
   answers,
-  checkAnswersIsClicked,
+  isAnswered,
+  errorMessage,
+  correctQuiz,
   handleToggleAnswer,
 }) {
   const style = {
@@ -20,7 +22,7 @@ function QuizPage({
   };
 
   function handleSetClassName(answer) {
-    if (!checkAnswersIsClicked) {
+    if (!correctQuiz) {
       return answer.isHeld ? "isHeld" : "notHeld";
     } else {
       if (answer.isHeld && answer.isCorrect) {
@@ -31,21 +33,36 @@ function QuizPage({
         return "not-selected";
       }
     }
-  };
+  }
 
   return (
     <div className="question-container">
-      <div dangerouslySetInnerHTML={{ __html: `<h3 class="question">${question}</h3>` }}></div>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<h3 class="question">${question}</h3>`,
+        }}
+      ></div>
       <div className="answer-options-container">
         {answers.map((answer) => (
-          <div key={answer.id} 
-               style={style} 
-               className={handleSetClassName(answer)} 
-               onClick={() => handleToggleAnswer(questionId, answer.id)}>
-              <div dangerouslySetInnerHTML={{ __html: `<p class="answer-option">${answer.value}</p>` }}></div>
+          <div
+            key={answer.id}
+            style={style}
+            className={handleSetClassName(answer)}
+            onClick={() => handleToggleAnswer(questionId, answer.id)}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `<p class="answer-option">${answer.value}</p>`,
+              }}
+            ></div>
           </div>
         ))}
       </div>
+      {!isAnswered && correctQuiz ? (
+        <p className="error-message">{errorMessage}</p>
+      ) : (
+        ""
+      )}
       <hr />
     </div>
   );
