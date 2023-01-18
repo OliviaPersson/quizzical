@@ -26,6 +26,7 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [correctQuiz, setCorrectQuiz] = React.useState(false);
   const [quizData, setQuizData] = React.useState([initialState]);
+  const [validQuiz, setValidQuiz] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(
     "Please enter an answer"
   );
@@ -99,17 +100,31 @@ function App() {
     }
   }
 
+  function handleCheckAnswersValidation() {
+    let questionIsAnwered = [];
+    quizData?.map((question) => questionIsAnwered.push(question.isAnswered));
+
+    let questionsAnswered = questionIsAnwered.every(
+      (answer) => answer === true
+    );
+
+    questionsAnswered ? setValidQuiz(true) : setValidQuiz(false);
+  }
+
   function handleCheckAnswers() {
     setCorrectQuiz(true);
+    handleCheckAnswersValidation();
 
-    quizData.map((question) => {
-      question.answers.map((answer) => {
-        if (answer.isHeld && !answer.isCorrect) {
-        } else if (answer.isHeld && answer.isCorrect) {
-          setCorrectAnswers((prevState) => prevState + 1);
-        }
+    if (validQuiz) {
+      quizData.map((question) => {
+        question.answers.map((answer) => {
+          if (answer.isHeld && !answer.isCorrect) {
+          } else if (answer.isHeld && answer.isCorrect) {
+            setCorrectAnswers((prevState) => prevState + 1);
+          }
+        });
       });
-    });
+    }
   }
 
   return (
@@ -126,6 +141,7 @@ function App() {
                 questionId={question.id}
                 isAnswered={question.isAnswered}
                 answers={question.answers}
+                validQuiz={validQuiz}
                 correctQuiz={correctQuiz}
                 errorMessage={errorMessage}
                 handleToggleAnswer={handleToggleAnswer}
@@ -134,7 +150,7 @@ function App() {
             );
           })}
           <div className="result-container">
-            {correctQuiz ? (
+            {correctQuiz && validQuiz ? (
               <h3 className="answer-result">
                 You scored {correctAnswers}/10 correct answers
               </h3>
@@ -143,9 +159,9 @@ function App() {
             )}
             <button
               className="check-answer-button"
-              onClick={!correctQuiz ? handleCheckAnswers : handleRestartQuiz}
+              onClick={validQuiz ? handleRestartQuiz : handleCheckAnswers}
             >
-              {correctQuiz ? "Play again" : "Check answers"}
+              {correctQuiz && validQuiz ? "Play again" : "Check answers"}
             </button>
           </div>
         </div>
