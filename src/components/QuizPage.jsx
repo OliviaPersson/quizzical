@@ -23,9 +23,9 @@ function QuizPage({
   };
 
   function handleSetClassName(answer) {
-    if (!correctQuiz) {
+    if (!validQuiz) {
       return answer.isHeld ? "isHeld" : "notHeld";
-    } else {
+    } else if (validQuiz) {
       if (answer.isHeld && answer.isCorrect) {
         return "correct-answer";
       } else if (answer.isHeld && !answer.isCorrect) {

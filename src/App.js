@@ -79,7 +79,7 @@ function App() {
   }
 
   function handleToggleAnswer(questionId, answerId) {
-    if (!correctQuiz) {
+    if (!validQuiz) {
       setQuizData((prevState) =>
         prevState.map((question) => {
           if (question.id !== questionId) {
@@ -109,13 +109,16 @@ function App() {
     );
 
     questionsAnswered ? setValidQuiz(true) : setValidQuiz(false);
+
+    //Using state not working
+    return questionsAnswered;
   }
 
   function handleCheckAnswers() {
     setCorrectQuiz(true);
-    handleCheckAnswersValidation();
+    const quizIsValid = handleCheckAnswersValidation();
 
-    if (validQuiz) {
+    if (quizIsValid) {
       quizData.map((question) => {
         question.answers.map((answer) => {
           if (answer.isHeld && !answer.isCorrect) {
@@ -125,6 +128,8 @@ function App() {
         });
       });
     }
+
+    console.log(correctAnswers);
   }
 
   return (
