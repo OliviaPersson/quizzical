@@ -1,0 +1,27 @@
+.result-container {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.answer-result {
+  font-family: 'Inter';
+  font-size: 12.8px;
+  color: #293264;
+}
+
+.check-answer-button {
+    margin-top: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 120px;
+    height: 35px;
+    background: #4D5B9E;
+    border: 1px solid #4D5B9E;
+    border-radius: 10px;
+    font-family: 'Inter';
+    font-size: 10.24px;
+    color: #F5F7FB;
+    cursor: pointer;
+  }

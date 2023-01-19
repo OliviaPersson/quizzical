@@ -12,10 +12,21 @@
     color: #293264;
 }
 
-.description { 
-    margin: 7px, 0px, 0px, 0px;
-    font-family: 'Inter';
-    color: #293264;
+.form-label {
+    display: block;
+    font-family: 'Karla';
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+.form-input {
+    display:block;
+    border: 1px solid 	#E0E0E0;
+    border-radius: 10px;
+    padding: 7px 16px;
+    font-family: 'Karla';
+    margin: auto;
+    width: 160px;
 }
 
 .start-button {
@@ -23,7 +34,7 @@
     background: #4D5B9E;
     border-radius: 15px;
     border: none;
-    width: 193px;
+    width: 190px;
     height: 52px;
     cursor: pointer;
 
