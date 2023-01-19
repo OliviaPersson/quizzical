@@ -72,6 +72,7 @@ function App() {
     setCorrectAnswers(0);
     setCorrectQuiz(false);
     setQuizData([initialState]);
+    setValidQuiz(false);
   }
 
   function handleStartQuizz() {
@@ -144,10 +145,7 @@ function App() {
             return (
               <QuizPage
                 key={question.id}
-                question={question.question}
-                questionId={question.id}
-                answereId={question.answereId}
-                answers={question.answers}
+                question={question}
                 validQuiz={validQuiz}
                 correctQuiz={correctQuiz}
                 errorMessage={errorMessage}
