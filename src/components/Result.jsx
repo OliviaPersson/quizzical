@@ -2,14 +2,14 @@ import "./Result.css";
 
 function Result({
   correctAnswers,
-  validQuiz,
+  isValidQuiz,
   correctQuiz,
   handleRestartQuiz,
-  handleCheckAnswers,
+  handleCorrectQuiz,
 }) {
   return (
     <div className="result-container">
-      {correctQuiz && validQuiz ? (
+      {correctQuiz && isValidQuiz ? (
         <h3 className="answer-result">
           You scored {correctAnswers}/10 correct answers
         </h3>
@@ -18,9 +18,9 @@ function Result({
       )}
       <button
         className="check-answer-button"
-        onClick={validQuiz ? handleRestartQuiz : handleCheckAnswers}
+        onClick={isValidQuiz ? handleRestartQuiz : handleCorrectQuiz}
       >
-        {correctQuiz && validQuiz ? "Play again" : "Check answers"}
+        {correctQuiz && isValidQuiz ? "Play again" : "Check answers"}
       </button>
     </div>
   );

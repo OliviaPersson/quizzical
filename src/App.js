@@ -27,7 +27,7 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [correctQuiz, setCorrectQuiz] = React.useState(false);
   const [quizData, setQuizData] = React.useState([initialState]);
-  const [validQuiz, setValidQuiz] = React.useState(false);
+  const [isValidQuiz, setIsValidQuiz] = React.useState(false);
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -65,20 +65,12 @@ function App() {
       });
   }, [startGame]);
 
-  function handleRestartQuiz() {
-    setStartGame(false);
-    setCorrectAnswers(0);
-    setCorrectQuiz(false);
-    setQuizData([initialState]);
-    setValidQuiz(false);
-  }
-
   function handleStartQuizz() {
     setStartGame(true);
   }
 
   function handleToggleAnswer(questionId, answerId) {
-    if (!validQuiz) {
+    if (!isValidQuiz) {
       setQuizData((prevState) =>
         prevState.map((question) => {
           if (question.id !== questionId) {
@@ -111,26 +103,38 @@ function App() {
       (answer) => answer === true
     );
 
-    questionsAnswered ? setValidQuiz(true) : setValidQuiz(false);
+    questionsAnswered ? setIsValidQuiz(true) : setIsValidQuiz(false);
 
     //Using state not working
     return questionsAnswered;
   }
 
-  function handleCheckAnswers() {
+  function handleCountCorrectAnswers() {
+    quizData?.map((question) => {
+      question.answers.map((answer) => {
+        if (answer.isHeld && !answer.isCorrect) {
+        } else if (answer.isHeld && answer.isCorrect) {
+          setCorrectAnswers((prevState) => prevState + 1);
+        }
+      });
+    });
+  }
+
+  function handleCorrectQuiz() {
     setCorrectQuiz(true);
     const quizIsValid = handleCheckAnswersValidation();
 
     if (quizIsValid) {
-      quizData?.map((question) => {
-        question.answers.map((answer) => {
-          if (answer.isHeld && !answer.isCorrect) {
-          } else if (answer.isHeld && answer.isCorrect) {
-            setCorrectAnswers((prevState) => prevState + 1);
-          }
-        });
-      });
+      handleCountCorrectAnswers();
     }
+  }
+
+  function handleRestartQuiz() {
+    setStartGame(false);
+    setCorrectAnswers(0);
+    setCorrectQuiz(false);
+    setQuizData([initialState]);
+    setIsValidQuiz(false);
   }
 
   return (
@@ -144,19 +148,18 @@ function App() {
               <QuizPage
                 key={question.id}
                 question={question}
-                validQuiz={validQuiz}
+                isValidQuiz={isValidQuiz}
                 correctQuiz={correctQuiz}
                 handleToggleAnswer={handleToggleAnswer}
-                handleRestartQuiz={handleRestartQuiz}
               />
             );
           })}
           <Result
             correctQuiz={correctQuiz}
-            validQuiz={validQuiz}
+            isValidQuiz={isValidQuiz}
             correctAnswers={correctAnswers}
             handleRestartQuiz={handleRestartQuiz}
-            handleCheckAnswers={handleCheckAnswers}
+            handleCorrectQuiz={handleCorrectQuiz}
           />
         </div>
       )}

@@ -1,13 +1,7 @@
 import Question from "./Question";
 import "./QuizPage.css";
 
-function QuizPage({
-  question,
-  validQuiz,
-  correctQuiz,
-  handleToggleAnswer,
-  handleRestartQuiz,
-}) {
+function QuizPage({ question, isValidQuiz, correctQuiz, handleToggleAnswer }) {
   return (
     <div className="question-container">
       <Question
@@ -16,10 +10,9 @@ function QuizPage({
         questionId={question.id}
         answereId={question.answereId}
         answers={question.answers}
-        validQuiz={validQuiz}
+        isValidQuiz={isValidQuiz}
         correctQuiz={correctQuiz}
         handleToggleAnswer={handleToggleAnswer}
-        handleRestartQuiz={handleRestartQuiz}
       />
       <hr />
     </div>

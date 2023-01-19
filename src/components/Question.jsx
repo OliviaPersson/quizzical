@@ -6,7 +6,7 @@ function Question({
   questionId,
   answers,
   answereId,
-  validQuiz,
+  isValidQuiz,
   correctQuiz,
   handleToggleAnswer,
 }) {
@@ -23,9 +23,9 @@ function Question({
   };
 
   function handleSetClassName(answer) {
-    if (!validQuiz) {
+    if (!isValidQuiz) {
       return answer.isHeld ? "isHeld" : "notHeld";
-    } else if (validQuiz) {
+    } else if (isValidQuiz) {
       if (answer.isHeld && answer.isCorrect) {
         return "correct-answer";
       } else if (answer.isHeld && !answer.isCorrect) {
@@ -59,7 +59,11 @@ function Question({
           </div>
         ))}
       </div>
-      {answereId === null && !validQuiz && correctQuiz ? <ErrorMessage /> : ""}
+      {answereId === null && !isValidQuiz && correctQuiz ? (
+        <ErrorMessage />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
