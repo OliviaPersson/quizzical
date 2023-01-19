@@ -11,7 +11,7 @@ function App() {
     category: "",
     type: "",
     difficulty: "",
-    isAnswered: false,
+    answereId: null,
     answers: [
       {
         id: "",
@@ -59,7 +59,7 @@ function App() {
               question: question.question,
               type: question.type,
               difficulty: question.difficulty,
-              isAnswered: false,
+              answereId: null,
               answers: [correct, ...incorrect],
             };
           });
@@ -87,7 +87,7 @@ function App() {
           } else {
             return {
               ...question,
-              isAnswered: !question.isAnswered,
+              answereId: question.answereId !== answerId ? answerId : null,
               answers: question.answers.map((answer) => {
                 return answer.id === answerId
                   ? { ...answer, isHeld: !answer.isHeld }
@@ -102,7 +102,11 @@ function App() {
 
   function handleCheckAnswersValidation() {
     let questionIsAnwered = [];
-    quizData?.map((question) => questionIsAnwered.push(question.isAnswered));
+    quizData?.map((question) => {
+      question.answereId !== null
+        ? questionIsAnwered.push(true)
+        : questionIsAnwered.push(false);
+    });
 
     let questionsAnswered = questionIsAnwered.every(
       (answer) => answer === true
@@ -119,7 +123,7 @@ function App() {
     const quizIsValid = handleCheckAnswersValidation();
 
     if (quizIsValid) {
-      quizData.map((question) => {
+      quizData?.map((question) => {
         question.answers.map((answer) => {
           if (answer.isHeld && !answer.isCorrect) {
           } else if (answer.isHeld && answer.isCorrect) {
@@ -128,8 +132,6 @@ function App() {
         });
       });
     }
-
-    console.log(correctAnswers);
   }
 
   return (
@@ -144,7 +146,7 @@ function App() {
                 key={question.id}
                 question={question.question}
                 questionId={question.id}
-                isAnswered={question.isAnswered}
+                answereId={question.answereId}
                 answers={question.answers}
                 validQuiz={validQuiz}
                 correctQuiz={correctQuiz}

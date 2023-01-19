@@ -4,7 +4,7 @@ function QuizPage({
   question,
   questionId,
   answers,
-  isAnswered,
+  answereId,
   validQuiz,
   errorMessage,
   correctQuiz,
@@ -59,7 +59,7 @@ function QuizPage({
           </div>
         ))}
       </div>
-      {!isAnswered && !validQuiz && correctQuiz ? (
+      {answereId === null && !validQuiz && correctQuiz ? (
         <p className="error-message">{errorMessage}</p>
       ) : (
         ""
