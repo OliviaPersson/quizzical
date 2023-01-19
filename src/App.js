@@ -3,6 +3,7 @@ import StartPage from "./components/StartPage";
 import QuizPage from "./components/QuizPage";
 import uuid from "react-uuid";
 import "./App.css";
+import Result from "./components/Result";
 
 function App() {
   const initialState = {
@@ -150,21 +151,13 @@ function App() {
               />
             );
           })}
-          <div className="result-container">
-            {correctQuiz && validQuiz ? (
-              <h3 className="answer-result">
-                You scored {correctAnswers}/10 correct answers
-              </h3>
-            ) : (
-              ""
-            )}
-            <button
-              className="check-answer-button"
-              onClick={validQuiz ? handleRestartQuiz : handleCheckAnswers}
-            >
-              {correctQuiz && validQuiz ? "Play again" : "Check answers"}
-            </button>
-          </div>
+          <Result
+            correctQuiz={correctQuiz}
+            validQuiz={validQuiz}
+            correctAnswers={correctAnswers}
+            handleRestartQuiz={handleRestartQuiz}
+            handleCheckAnswers={handleCheckAnswers}
+          />
         </div>
       )}
     </div>
