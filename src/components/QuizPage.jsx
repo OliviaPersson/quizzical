@@ -8,7 +8,7 @@ function QuizPage({ question, isValidQuiz, correctQuiz, handleToggleAnswer }) {
         key={question.id}
         question={question.question}
         questionId={question.id}
-        answereId={question.answereId}
+        answerId={question.answerId}
         answers={question.answers}
         isValidQuiz={isValidQuiz}
         correctQuiz={correctQuiz}

@@ -1,12 +1,12 @@
 import React from "react";
+import uuid from "react-uuid";
 import StartPage from "./components/StartPage";
 import QuizPage from "./components/QuizPage";
-import uuid from "react-uuid";
-import "./App.css";
 import Result from "./components/Result";
+import "./App.css";
 
 function App() {
-  const initialState = {
+  const initialQuizDataState = {
     id: "",
     question: "",
     category: "",
@@ -24,10 +24,10 @@ function App() {
   };
 
   const [startGame, setStartGame] = React.useState(false);
-  const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [correctQuiz, setCorrectQuiz] = React.useState(false);
-  const [quizData, setQuizData] = React.useState([initialState]);
+  const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [isValidQuiz, setIsValidQuiz] = React.useState(false);
+  const [quizData, setQuizData] = React.useState([initialQuizDataState]);
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -57,7 +57,7 @@ function App() {
               question: question.question,
               type: question.type,
               difficulty: question.difficulty,
-              answereId: null,
+              answerId: null,
               answers: [correct, ...incorrect],
             };
           });
@@ -78,7 +78,7 @@ function App() {
           } else {
             return {
               ...question,
-              answereId: question.answereId !== answerId ? answerId : null,
+              answerId: question.answerId !== answerId ? answerId : null,
               answers: question.answers.map((answer) => {
                 return answer.id === answerId
                   ? { ...answer, isHeld: !answer.isHeld }
@@ -94,7 +94,7 @@ function App() {
   function handleCheckAnswersValidation() {
     let questionIsAnwered = [];
     quizData?.map((question) => {
-      question.answereId !== null
+      question.answerId !== null
         ? questionIsAnwered.push(true)
         : questionIsAnwered.push(false);
     });
@@ -133,7 +133,7 @@ function App() {
     setStartGame(false);
     setCorrectAnswers(0);
     setCorrectQuiz(false);
-    setQuizData([initialState]);
+    setQuizData([initialQuizDataState]);
     setIsValidQuiz(false);
   }
 

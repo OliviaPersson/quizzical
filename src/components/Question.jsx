@@ -5,7 +5,7 @@ function Question({
   question,
   questionId,
   answers,
-  answereId,
+  answerId,
   isValidQuiz,
   correctQuiz,
   handleToggleAnswer,
@@ -59,11 +59,7 @@ function Question({
           </div>
         ))}
       </div>
-      {answereId === null && !isValidQuiz && correctQuiz ? (
-        <ErrorMessage />
-      ) : (
-        ""
-      )}
+      {answerId === null && !isValidQuiz && correctQuiz ? <ErrorMessage /> : ""}
     </div>
   );
 }
