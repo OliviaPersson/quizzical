@@ -4,7 +4,6 @@ import "./QuizPage.css";
 function QuizPage({
   question,
   validQuiz,
-  errorMessage,
   correctQuiz,
   handleToggleAnswer,
   handleRestartQuiz,
@@ -19,7 +18,6 @@ function QuizPage({
         answers={question.answers}
         validQuiz={validQuiz}
         correctQuiz={correctQuiz}
-        errorMessage={errorMessage}
         handleToggleAnswer={handleToggleAnswer}
         handleRestartQuiz={handleRestartQuiz}
       />

@@ -1,4 +1,5 @@
 import "./Question.css";
+import ErrorMessage from "./ErrorMessage";
 
 function Question({
   question,
@@ -6,7 +7,6 @@ function Question({
   answers,
   answereId,
   validQuiz,
-  errorMessage,
   correctQuiz,
   handleToggleAnswer,
 }) {
@@ -59,11 +59,7 @@ function Question({
           </div>
         ))}
       </div>
-      {answereId === null && !validQuiz && correctQuiz ? (
-        <p className="error-message">{errorMessage}</p>
-      ) : (
-        ""
-      )}
+      {answereId === null && !validQuiz && correctQuiz ? <ErrorMessage /> : ""}
     </div>
   );
 }

@@ -27,9 +27,6 @@ function App() {
   const [correctQuiz, setCorrectQuiz] = React.useState(false);
   const [quizData, setQuizData] = React.useState([initialState]);
   const [validQuiz, setValidQuiz] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState(
-    "Please enter an answer"
-  );
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -148,7 +145,6 @@ function App() {
                 question={question}
                 validQuiz={validQuiz}
                 correctQuiz={correctQuiz}
-                errorMessage={errorMessage}
                 handleToggleAnswer={handleToggleAnswer}
                 handleRestartQuiz={handleRestartQuiz}
               />
