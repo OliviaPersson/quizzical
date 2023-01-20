@@ -24,6 +24,9 @@ function App() {
   };
 
   const [startGame, setStartGame] = React.useState(false);
+  const [user, setUser] = React.useState({
+    name: "",
+  });
   const [correctQuiz, setCorrectQuiz] = React.useState(false);
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [isValidQuiz, setIsValidQuiz] = React.useState(false);
@@ -140,20 +143,20 @@ function App() {
   return (
     <div className="app">
       {!startGame ? (
-        <StartPage handleStartQuizz={handleStartQuizz} />
+        <StartPage
+          user={user}
+          setUser={setUser}
+          handleStartQuizz={handleStartQuizz}
+        />
       ) : (
         <div className="quiz-container">
-          {quizData?.map((question) => {
-            return (
-              <QuizPage
-                key={question.id}
-                question={question}
-                isValidQuiz={isValidQuiz}
-                correctQuiz={correctQuiz}
-                handleToggleAnswer={handleToggleAnswer}
-              />
-            );
-          })}
+          <QuizPage
+            user={user}
+            quizData={quizData}
+            isValidQuiz={isValidQuiz}
+            correctQuiz={correctQuiz}
+            handleToggleAnswer={handleToggleAnswer}
+          />
           <Result
             correctQuiz={correctQuiz}
             isValidQuiz={isValidQuiz}
