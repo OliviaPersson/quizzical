@@ -1,12 +1,18 @@
 import "./Result.css";
+import Button from "./Button";
 
 function Result({
   correctAnswers,
   isValidQuiz,
   correctQuiz,
-  handleRestartQuiz,
   handleCorrectQuiz,
 }) {
+  function setButtonLabel() {
+    return correctQuiz && isValidQuiz
+      ? "Continue to scoreboard"
+      : "Check answers";
+  }
+
   return (
     <div className="result-container">
       {correctQuiz && isValidQuiz ? (
@@ -16,12 +22,11 @@ function Result({
       ) : (
         ""
       )}
-      <button
-        className="check-answer-button"
-        onClick={isValidQuiz ? handleRestartQuiz : handleCorrectQuiz}
-      >
-        {correctQuiz && isValidQuiz ? "Play again" : "Check answers"}
-      </button>
+      <Button
+        label={setButtonLabel()}
+        isValidQuiz={isValidQuiz}
+        handleCorrectQuiz={handleCorrectQuiz}
+      />
     </div>
   );
 }

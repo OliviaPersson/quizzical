@@ -3,9 +3,13 @@ import uuid from "react-uuid";
 import StartPage from "./components/StartPage";
 import QuizPage from "./components/QuizPage";
 import Result from "./components/Result";
+import Score from "./components/Score";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 
 function App() {
+  const navigate = useNavigate();
+
   const initialQuizDataState = {
     id: "",
     question: "",
@@ -31,6 +35,11 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = React.useState(0);
   const [isValidQuiz, setIsValidQuiz] = React.useState(false);
   const [quizData, setQuizData] = React.useState([initialQuizDataState]);
+
+  // React.useEffect(() => {
+  //   localStorage.setItem("user", JSON.stringify(user));
+  //   localStorage.setItem("correctAnswers", JSON.stringify(correctAnswers));
+  // }, [user, correctAnswers]);
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -70,6 +79,7 @@ function App() {
 
   function handleStartQuizz() {
     setStartGame(true);
+    navigate("/quiz");
   }
 
   function handleToggleAnswer(questionId, answerId) {
@@ -133,7 +143,9 @@ function App() {
   }
 
   function handleRestartQuiz() {
+    navigate("/");
     setStartGame(false);
+    setUser({ name: "" });
     setCorrectAnswers(0);
     setCorrectQuiz(false);
     setQuizData([initialQuizDataState]);
@@ -142,30 +154,70 @@ function App() {
 
   return (
     <div className="app">
-      {!startGame ? (
-        <StartPage
-          user={user}
-          setUser={setUser}
-          handleStartQuizz={handleStartQuizz}
-        />
-      ) : (
-        <div className="quiz-container">
-          <QuizPage
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <StartPage
+              user={user}
+              setUser={setUser}
+              handleStartQuizz={handleStartQuizz}
+            />
+          }
+        ></Route>
+        <Route
+          path="/quiz"
+          element={[
+            <QuizPage
+              user={user}
+              quizData={quizData}
+              isValidQuiz={isValidQuiz}
+              correctQuiz={correctQuiz}
+              handleToggleAnswer={handleToggleAnswer}
+            />,
+            <Result
+              correctQuiz={correctQuiz}
+              isValidQuiz={isValidQuiz}
+              correctAnswers={correctAnswers}
+              handleCorrectQuiz={handleCorrectQuiz}
+            />,
+          ]}
+        ></Route>
+        <Route
+          path="/score"
+          element={
+            <Score
+              user={user}
+              correctAnswers={correctAnswers}
+              handleRestartQuiz={handleRestartQuiz}
+            />
+          }
+        ></Route>
+      </Routes>
+      {/* {!startGame ? (
+          <StartPage
             user={user}
-            quizData={quizData}
-            isValidQuiz={isValidQuiz}
-            correctQuiz={correctQuiz}
-            handleToggleAnswer={handleToggleAnswer}
+            setUser={setUser}
+            handleStartQuizz={handleStartQuizz}
           />
-          <Result
-            correctQuiz={correctQuiz}
-            isValidQuiz={isValidQuiz}
-            correctAnswers={correctAnswers}
-            handleRestartQuiz={handleRestartQuiz}
-            handleCorrectQuiz={handleCorrectQuiz}
-          />
-        </div>
-      )}
+        ) : (
+          <div className="quiz-container">
+            <QuizPage
+              user={user}
+              quizData={quizData}
+              isValidQuiz={isValidQuiz}
+              correctQuiz={correctQuiz}
+              handleToggleAnswer={handleToggleAnswer}
+            />
+            <Result
+              correctQuiz={correctQuiz}
+              isValidQuiz={isValidQuiz}
+              correctAnswers={correctAnswers}
+              handleRestartQuiz={handleRestartQuiz}
+              handleCorrectQuiz={handleCorrectQuiz}
+            />
+          </div>
+        )} */}
     </div>
   );
 }
